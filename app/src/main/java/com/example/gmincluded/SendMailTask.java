@@ -6,18 +6,24 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
 public class SendMailTask extends AsyncTask {
-    public String[] nombre = new String[1];
+    public String[] adjuntos;
+    private String asunto;
+    private String contenido;
 
 
     private Activity sendMailActivity;
-    static String resultado ;
 
-    public SendMailTask(Activity activity) {
+
+    public SendMailTask(Activity activity, String asunto, String contenido) {
         sendMailActivity = activity;
+
+        this.asunto = asunto;
+        this.contenido = contenido;
 
     }
 
@@ -28,13 +34,13 @@ public class SendMailTask extends AsyncTask {
     @Override
     protected Object doInBackground(Object... args) {
         try {
-            sendEmail("destino@correo.com","From","asunto a capon","cuerpo a capon",nombre);
-            resultado="Asunto "+" enviado correctamente.";
+            sendEmail("correoDestino@gmail.com","From",asunto,contenido,adjuntos);
+
 
         } catch (Exception e) {
             publishProgress(e.getMessage());
             Log.e("SendMailTask", e.getMessage(), e);
-            resultado="Ha ocurrido un error: ";
+            Toast.makeText(sendMailActivity, "Oops, algo no ha ido bien!", Toast.LENGTH_LONG).show();
         }
         return null;
     }
@@ -48,7 +54,7 @@ public class SendMailTask extends AsyncTask {
 
     @Override
     public void onPostExecute(Object result) {
-
+        Toast.makeText(sendMailActivity, "Mensaje enviado correctamente!", Toast.LENGTH_LONG).show();
 
 
     }
@@ -59,7 +65,7 @@ public class SendMailTask extends AsyncTask {
         if (subject != null && subject.length() > 0) {
             mail.setSubject(subject);
         } else {
-            mail.setSubject("ASUNTO");
+            mail.setSubject("Correo recibido desde app GMIncluded");
         }
 
         if (message != null && message.length() > 0) {
@@ -76,28 +82,6 @@ public class SendMailTask extends AsyncTask {
             }
         }
         return mail.send();
-    }
-
-
-    public static void mostrar(Context context){
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
-        builder.setTitle("Resultado del mensaje");
-        builder.setMessage(resultado);
-
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-
-            public void onClick(DialogInterface dialog, int which) {
-
-
-                dialog.dismiss();
-            }
-        });
-
-
-        AlertDialog alert = builder.create();
-        alert.setCancelable(false);
-        alert.show();
     }
 
 

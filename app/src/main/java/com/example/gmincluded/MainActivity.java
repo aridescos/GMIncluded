@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }else {
                     Toast.makeText(MainActivity.this, "Enviando mensaje...", Toast.LENGTH_SHORT).show();
-                    new SendMailTask(MainActivity.this).execute();
+                    new SendMailTask(MainActivity.this, asunto, contenido).execute();
                     txtDestinatario.setText(null);
                     txtAsunto.setText(null);
                     txtContenido.setText(null);

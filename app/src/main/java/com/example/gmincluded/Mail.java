@@ -94,11 +94,10 @@ public class Mail extends javax.mail.Authenticator {
         port = "465"; // puerto smtp
         sport = "465"; // puerto por defecto socketfactory
 
-        user = "miCorreo"; // username
-        password = "miPass"; // password
-        from = "quienEnvia"; // email enviado por
-        subject = "asunto"; // email asunto
-        body = "cuerpo"; // email body
+        user = "correo@gmail.com"; // correo gmail desde el que quieres enviar el correo, ATENCION: DEBE TENER PERMITIDO EL USO DE APPS DE TERCDEROS EN CONFIGURACION DE GOOGLE
+        password = "123456"; // contraseña
+        from = user; // email enviado por
+
 
 
 
@@ -152,7 +151,7 @@ public class Mail extends javax.mail.Authenticator {
             // union de partes del mensaje
             msg.setContent(multipart);
 
-            // send email
+            // envia email
             Transport.send(msg);
 
             return true;
